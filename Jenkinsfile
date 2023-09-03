@@ -1,6 +1,7 @@
 def runTerraform(environment) {
     sh "cd env/${environment}"
     sh "terraform workspace select ${environment}"
+    sh 'ls -a'
     def instanceIps = sh(
         script: "terraform apply --lock=false -auto-approve && terraform output list_ec2_ip",
         returnStdout: true
