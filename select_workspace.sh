@@ -2,7 +2,6 @@
 
 # get workspace from input param
 workspace_name="$1"
-cd env/$workspace_name
 
 # Check if the workspace exists
 if ! terraform workspace select $workspace_name 2>/dev/null; then
