@@ -1,6 +1,6 @@
 def runTerraform(environment) {
     def instanceIps = sh(
-        script: "terraform -chdir=env/${environment} apply --lock=false -auto-approve && terraform -chdir=env/${environment} output list_ec2_ip",
+        script: "cd /env/${environment} && terraform workspace show && terraform apply --lock=false -auto-approve && terraform output list_ec2_ip",
         returnStdout: true
     ).trim()
     writeFile file: "${environment}_list_ec2_ip.txt", text: instanceIps
