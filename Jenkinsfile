@@ -1,7 +1,7 @@
 def runTerraform(environment) {
     sh "terraform workspace select ${environment}"
     def instanceIps = sh(
-        script: "terraform -chdir=/env/${environment} apply --lock=false -auto-approve && terraform -chdir=/env/${environment} output list_ec2_ip",
+        script: "terraform -chdir=/var/lib/jenkins/workspace/jenkins-mock/env/${environment}/frontend/ apply --lock=false -auto-approve && terraform -chdir=/var/lib/jenkins/workspace/jenkins-mock/env/${environment}/frontend/ output list_ec2_ip",
         returnStdout: true
     ).trim()
     writeFile file: "${environment}_list_ec2_ip.txt", text: instanceIps
@@ -28,17 +28,17 @@ pipeline {
         choice choices: ['dev', 'prod'], name: 'deployment_env', description: "Choose env to build"
     }
     stages {
-        stage('select workspace') {
-            steps {
-                echo "select workspace: ${params.deployment_env}"
-                selectWorkspace("${params.deployment_env}")
-            }
-        }
+        // stage('select workspace') {
+        //     steps {
+        //         echo "select workspace: ${params.deployment_env}"
+        //         selectWorkspace("${params.deployment_env}")
+        //     }
+        // }
         stage('init') {
             steps {
                 echo "init terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'terraform -chdir=env/${deployment_env}/ init --lock=false'
+                sh 'terraform -chdir=/var/lib/jenkins/workspace/jenkins-mock/env/${deployment_env}/frontend/ init --lock=false'
                 }
             }
         }
@@ -46,7 +46,7 @@ pipeline {
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'terraform -chdir=env/${deployment_env}/ validate'
+                sh 'terraform -chdir=/var/lib/jenkins/workspace/jenkins-mock/env/${deployment_env}/frontend/ validate'
                 }
             }
         }
