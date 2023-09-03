@@ -15,6 +15,7 @@ def deployWithAnsible(environment) {
 }
 
 def selectWorkspace(environment){
+    sh 'chmod +x select_workspace.sh'
     sh "pwd"
     sh "ls -ll"
     sh "./select_workspace.sh ${environment}"
