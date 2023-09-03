@@ -1,0 +1,16 @@
+---
+- hosts: ec2_hosts
+  remote_user: ubuntu
+  become: yes
+  tasks:
+    - name: Update apt
+      shell: sudo apt update
+    - name: Install Nginx
+      apt:
+        name:
+          - nginx
+        state: present
+    - name: Copy template
+      copy:
+        src: index.html
+        dest: /usr/share/nginx/html
