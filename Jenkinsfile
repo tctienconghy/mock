@@ -37,11 +37,9 @@ pipeline {
         stage('init') {
             steps {
                 echo "init terraform with env: ${params.deployment_env}"
-                sh 'pwd'
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'cd /env/${deployment_env}/frontend'
                 sh 'pwd'
-                sh 'terraform init --lock=false'
+                sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/ init --lock=false'
                 }
             }
         }
@@ -49,21 +47,17 @@ pipeline {
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'cd /env/${deployment_env}/frontend'
                 sh 'pwd'
-                sh 'terraform validate'
+                sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/ validate'
                 }
             }
         }
         stage('plan') {
             steps {
-                sh 'pwd'
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'cd /env/${deployment_env}/frontend'
-                sh 'pwd'
                 sh 'ls -ltra'
-                sh 'terraform plan'
+                sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/ plan'
                 }
             }
         }
