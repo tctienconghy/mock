@@ -17,8 +17,6 @@ ec2_instances = {
 device_name = "/dev/sdf"
 
 // pass it from jenkins
-my_access_key = "unused"
-my_secret_key = "unused"
 
 # ami                           = "ami-0eb260c4d5475b901"  
 # instance_type                 = "t2.micro"   
