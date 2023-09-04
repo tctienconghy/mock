@@ -1,7 +1,7 @@
 def runTerraform(environment) {
     sh "terraform workspace select ${environment}"
     def instanceIps = sh(
-        script: "terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${environment}/frontend/ apply --lock=false -auto-approve && terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${environment}/frontend/ output list_ec2_ip",
+        script: "terraform apply --lock=false -auto-approve && terraform output list_ec2_ip",
         returnStdout: true
     ).trim()
     writeFile file: "${environment}_list_ec2_ip.txt", text: instanceIps
@@ -48,7 +48,7 @@ pipeline {
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${params.deployment_env}/frontend/ validate'
+                sh 'terraform validate'
                 }
             }
         }
@@ -56,7 +56,7 @@ pipeline {
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${params.deployment_env}/frontend/ plan'
+                sh 'terraform plan'
                 }
             }
         }
