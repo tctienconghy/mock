@@ -37,8 +37,9 @@ pipeline {
         stage('init') {
             steps {
                 echo "init terraform with env: ${params.deployment_env}"
+                sh 'pwd'
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh '/cd /env/${deployment_env}/frontend'
+                sh 'cd /env/${deployment_env}/frontend'
                 sh 'pwd'
                 sh 'terraform init --lock=false'
                 }
