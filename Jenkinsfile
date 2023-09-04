@@ -36,11 +36,10 @@ pipeline {
         // }
         stage('init') {
             steps {
-                echo "123456"
-                echo "init terraform with env: ${params.deployment_env}"
-                withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
                 sh 'cd /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/dev/frontend'
                 sh 'pwd'
+                echo "init terraform with env: ${params.deployment_env}"
+                withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
                 sh 'terraform -chdir=Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${params.deployment_env}/frontend/ init --lock=false'
                 }
             }
