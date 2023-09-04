@@ -10,5 +10,7 @@
 
 
 output "list_ec2_ip" {
-    value = ["${aws_instance.ec2_instances.*.public_ip}"]
+  value = { 
+    for instance in aws_instance.ec2_instances : instance.id => instance.public_ip
+  }
 }
