@@ -1,7 +1,7 @@
 def runTerraform(environment) {
     sh "terraform workspace select ${environment}"
     def instanceIps = sh(
-        script: "terraform -chdir=/var/lib/jenkins/workspace/jenkins-terraform-mock/env/${environment}/frontend/ apply --lock=false -auto-approve && terraform -chdir=/var/lib/jenkins/workspace/jenkins-terraform-mock/env/${environment}/frontend/ output list_ec2_ip --lock=false",
+        script: "terraform -chdir=/var/lib/jenkins/workspace/jenkins-terraform-mock/env/${environment}/frontend/ apply --lock=false -auto-approve && terraform -chdir=/var/lib/jenkins/workspace/jenkins-terraform-mock/env/${environment}/frontend/ output list_ec2_ip",
         returnStdout: true
     ).trim()
     writeFile file: "${environment}_list_ec2_ip.txt", text: instanceIps
@@ -46,7 +46,7 @@ pipeline {
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'terraform -chdir=/var/lib/jenkins/workspace/jenkins-terraform-mock/env/${deployment_env}/frontend/ validate --lock=false'
+                sh 'terraform -chdir=/var/lib/jenkins/workspace/jenkins-terraform-mock/env/${deployment_env}/frontend/ validate'
                 }
             }
         }
@@ -54,7 +54,7 @@ pipeline {
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'terraform -chdir=/var/lib/jenkins/workspace/jenkins-terraform-mock/env/${deployment_env}/frontend/ plan --lock=false'
+                sh 'terraform -chdir=/var/lib/jenkins/workspace/jenkins-terraform-mock/env/${deployment_env}/frontend/ plan'
                 }
             }
         }
