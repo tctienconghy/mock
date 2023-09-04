@@ -41,7 +41,7 @@ pipeline {
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
                 sh 'cd /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/dev/frontend'
                 sh 'pwd'
-                sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${params.deployment_env}/frontend/ init --lock=false'
+                sh 'terraform -chdir=Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${params.deployment_env}/frontend/ init --lock=false'
                 }
             }
         }
