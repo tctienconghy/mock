@@ -59,6 +59,8 @@ pipeline {
                 sh 'pwd'
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
+                sh 'cd /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend'
+                sh 'pwd'
                 sh 'ls -ltra'
                 sh 'terraform plan'
                 }
