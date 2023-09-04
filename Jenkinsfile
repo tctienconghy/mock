@@ -50,6 +50,14 @@ pipeline {
                 }
             }
         }
+        stage('plan') {
+            steps {
+                echo "validate terraform with env: ${params.deployment_env}"
+                withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
+                sh 'terraform -chdir=/var/lib/jenkins/workspace/jenkins-mock/env/${deployment_env}/frontend/ plan'
+                }
+            }
+        }
         stage("run terraform"){
             steps {
                 echo "Run terraform with env: ${params.deployment_env}"
