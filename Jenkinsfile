@@ -55,9 +55,9 @@ pipeline {
         stage('plan') {
             steps {
                 sh 'pwd'
-                sh 'terraform workspace show'
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
+                sh 'ls -ltra'
                 sh 'terraform plan'
                 }
             }
