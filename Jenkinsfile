@@ -38,7 +38,7 @@ pipeline {
             steps {
                 echo "init terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'cd env/${params.deployment_env}/frontend'
+                sh '/cd env/${params.deployment_env}/frontend'
                 sh 'pwd'
                 sh 'terraform init --lock=false'
                 }
@@ -48,7 +48,7 @@ pipeline {
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'cd env/${params.deployment_env}/frontend'
+                sh 'cd /env/${params.deployment_env}/frontend'
                 sh 'pwd'
                 sh 'terraform validate'
                 }
@@ -59,7 +59,7 @@ pipeline {
                 sh 'pwd'
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'cd env/${params.deployment_env}/frontend'
+                sh 'cd /env/${params.deployment_env}/frontend'
                 sh 'pwd'
                 sh 'ls -ltra'
                 sh 'terraform plan'
