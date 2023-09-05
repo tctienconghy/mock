@@ -10,7 +10,7 @@ def generateDynamicInventory(environment) {
     sh 'pwd'
     sh 'ls -ltra'
     sh 'chmod +x select_workspace.sh'
-    sh "generate_inventory.sh ${environment}"
+    sh "dynamic_inventory.sh ${environment}"
 }
 
 def deployWithAnsible(environment) {
