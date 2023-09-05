@@ -25,6 +25,7 @@ pipeline {
     agent any
     parameters {
         choice (choices: ['dev', 'prod'], name: 'deployment_env', description: "Choose env to build")
+        choice (choices: ['apply', 'destroy'], name: 'action', description: "Choose an action")
     }
     stages {
         // stage('select workspace') {
