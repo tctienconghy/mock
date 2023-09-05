@@ -7,6 +7,9 @@ def runTerraform(environment) {
 }
 
 def generateDynamicInventory(environment) {
+    sh 'pwd'
+    sh 'cd /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins'
+    sh 'pwd'
     sh "./generate_inventory.sh ${environment}"
 }
 
