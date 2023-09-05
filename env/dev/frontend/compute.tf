@@ -17,7 +17,7 @@ resource "null_resource" "ansible_inventory" {
             ${join(",", [for instance in module.ec2_instances.list_ec2_ip : "${instance}"])},
           }
         }
-      }' > /path/to/ansible_inventory.json
+      }' > ansible_inventory.json
     EOT
   }
 }
