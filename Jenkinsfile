@@ -24,7 +24,7 @@ def selectWorkspace(environment){
 pipeline {
     agent any
     parameters {
-        choice choices: ['dev', 'prod'], name: 'deployment_env', description: "Choose env to build"
+        choice (choices: ['dev', 'prod'], name: 'deployment_env', description: "Choose env to build")
     }
     stages {
         // stage('select workspace') {
