@@ -11,13 +11,13 @@ def generateDynamicInventory(environment) {
 }
 
 def deployWithAnsible(environment) {
+    sh 'chmod +x playbook.yml'
+    sh 'chmod +x ${environment}_dynamic_inventory.json'
     sh "ansible-playbook -i ${environment}_dynamic_inventory.json playbook.yml"
 }
 
 def selectWorkspace(environment){
     sh 'chmod +x select_workspace.sh'
-    sh "pwd"
-    sh "ls -ll"
     sh "./select_workspace.sh ${environment}"
 }
 
@@ -25,7 +25,7 @@ pipeline {
     agent any
     parameters {
         choice (choices: ['dev', 'prod'], name: 'deployment_env', description: "Choose env to build")
-        choice (choices: ['apply', 'destroy'], name: 'action', description: "Choose an action")
+        choice (choices: ['deploy', 'destroy'], name: 'action', description: "Choose an action")
     }
     stages {
         // stage('select workspace') {
@@ -35,33 +35,43 @@ pipeline {
         //     }
         // }
         stage('init') {
+            when {
+                expression { params.action == 'deploy'}
+            }
             steps {
                 echo "init terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'pwd'
-                sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/ init --lock=false'
+                    sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/ init --lock=false'
                 }
             }
         }
         stage('validate') {
+            when {
+                expression { params.action == 'deploy'}
+            }
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'pwd'
-                sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/ validate'
+                    sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/ validate'
                 }
             }
         }
         stage('plan') {
+            when {
+                expression { params.action == 'deploy'}
+            }
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                sh 'ls -ltra'
-                sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/ plan'
+                    sh 'ls -ltra'
+                    sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/ plan'
                 }
             }
         }
         stage("run terraform"){
+            when {
+                expression { params.action == 'deploy'}
+            }
             steps {
                 echo "Run terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
@@ -70,6 +80,9 @@ pipeline {
             }
         }
         stage("generate dynamic inventory"){
+            when {
+                expression { params.action == 'deploy'}
+            }
             steps {
                 echo "genearte terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
@@ -78,10 +91,24 @@ pipeline {
             }
         }
         stage("deploy ansible"){
+            when {
+                expression { params.action == 'deploy'}
+            }
             steps {
                 echo "deploy ansible with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
                     deployWithAnsible("${params.deployment_env}")
+                }
+            }
+        }
+        stage("destroy"){
+            when {
+                expression { params.action == 'destroy'}
+            }
+            steps {
+                echo "start to destroy with env: ${params.deployment_env}"
+                withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
+                    sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/ destroy -auto-approve'
                 }
             }
         }
