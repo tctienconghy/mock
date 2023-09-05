@@ -1,6 +1,6 @@
 def runTerraform(environment) {
     def instanceIps = sh(
-        script: "terraform apply --lock=false -auto-approve && terraform output list_ec2_ip",
+        script: "terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${environment}/frontend/ apply --lock=false -auto-approve && terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${environment}/frontend/ output list_ec2_ip",
         returnStdout: true
     ).trim()
     writeFile file: "${environment}_list_ec2_ip.txt", text: instanceIps
@@ -28,12 +28,6 @@ pipeline {
         choice (choices: ['deploy', 'destroy'], name: 'action', description: "Choose an action")
     }
     stages {
-        // stage('select workspace') {
-        //     steps {
-        //         echo "select workspace: ${params.deployment_env}"
-        //         selectWorkspace("${params.deployment_env}")
-        //     }
-        // }
         stage('init') {
             when {
                 expression { params.action == 'deploy'}
