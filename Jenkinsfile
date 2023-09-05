@@ -8,9 +8,9 @@ def runTerraform(environment) {
 
 def generateDynamicInventory(environment) {
     sh 'pwd'
-    sh 'cd /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins'
-    sh 'pwd'
-    sh "./generate_inventory.sh ${environment}"
+    sh 'ls -ltra'
+    sh 'chmod +x select_workspace.sh'
+    sh "generate_inventory.sh ${environment}"
 }
 
 def deployWithAnsible(environment) {
@@ -21,7 +21,7 @@ def deployWithAnsible(environment) {
 
 def selectWorkspace(environment){
     sh 'chmod +x select_workspace.sh'
-    sh "./select_workspace.sh ${environment}"
+    sh "select_workspace.sh ${environment}"
 }
 
 pipeline {
