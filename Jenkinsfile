@@ -92,9 +92,10 @@ pipeline {
                 echo "deploy ansible with env: ${params.deployment_env}"
                 script {
                     def inventoryPath = "/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory"
+                    def playbookPath = "/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/playbook.yml"
                     ansiblePlaybook(
                         credentialsId: 'aws_private_key',
-                            playbook: 'playbook.yml',
+                            playbook: playbookPath,
                             inventory: inventoryPath,
                             colorized: true,
                             become: 'yes'
