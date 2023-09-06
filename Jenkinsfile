@@ -78,8 +78,7 @@ pipeline {
                         credentialsId: 'my_key',
                         playbook: playbookPath,
                         inventory: inventoryPath,
-                        colorized: true,
-                        becomeUser: 'tctienconghygmail.com'
+                        become: 'yes'
                     )   
                 }
             }
