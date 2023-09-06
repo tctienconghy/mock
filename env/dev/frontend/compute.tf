@@ -16,5 +16,5 @@ resource "null_resource" "ansible_inventory" {
       echo "${local.list_ec2_ip[count.index]} ansible_user=\"ubuntu\"" >> dev_dynamic_inventory
     EOF
   }
-  depends_on = [ local.list_ec2_ip ]
+  depends_on = [ module.ec2_instances.list_ec2_ip ]
 }
