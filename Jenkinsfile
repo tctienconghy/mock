@@ -93,7 +93,7 @@ pipeline {
                     def inventoryPath = "/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory"
                     def playbookPath = "/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml"
                     ansiblePlaybook(
-                        credentialsId: 'my_key1',
+                        credentialsId: 'my_key',
                         playbook: playbookPath,
                         inventory: inventoryPath,
                         colorized: true
