@@ -17,8 +17,8 @@ def deployWithAnsible(environment) {
     sh 'pwd'
     sh 'ls -ltra'
     sh 'chmod +x playbook.yml'
-    sh 'chmod +x ${environment}_dynamic_inventory.json'
-    sh "ansible-playbook -i ${environment}_dynamic_inventory playbook.yml"
+    sh 'chmod +x env/${environment}/frontend/${environment}_dynamic_inventory'
+    sh "ansible-playbook -i env/${environment}/frontend/${environment}_dynamic_inventory playbook.yml"
 }
 
 def selectWorkspace(environment){
