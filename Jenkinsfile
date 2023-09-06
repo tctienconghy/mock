@@ -91,6 +91,7 @@ pipeline {
                     credentialsId: 'aws_private_key',
                         playbook: 'playbook.yml',
                         inventory: '/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory',
+                        colorized: true
                         become: 'yes'
                 )
             }
