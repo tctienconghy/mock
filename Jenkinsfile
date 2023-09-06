@@ -1,6 +1,6 @@
 def runTerraform(environment) {
     def instanceIps = sh(
-        script: "terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${environment}/frontend/ apply --lock=false -auto-approve && terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${environment}/frontend/ output list_ec2_ip",
+        script: "terraform -chdir=/var/lib/jenkins/workspace/demo_mock/env/${environment}/frontend/ apply --lock=false -auto-approve && terraform -chdir=/var/lib/jenkins/workspace/demo_mock/env/${environment}/frontend/ output list_ec2_ip",
         returnStdout: true
     ).trim()
     writeFile file: "${environment}_list_ec2_ip.txt", text: instanceIps
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 echo "init terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                    sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/ init --lock=false'
+                    sh 'terraform -chdir=/var/lib/jenkins/workspace/demo_mock/env/${deployment_env}/frontend/ init --lock=false'
                 }
             }
         }
@@ -51,7 +51,7 @@ pipeline {
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                    sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/ validate'
+                    sh 'terraform -chdir=/var/lib/jenkins/workspace/demo_mock/env/${deployment_env}/frontend/ validate'
                 }
             }
         }
@@ -63,7 +63,7 @@ pipeline {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
                     sh 'ls -ltra'
-                    sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/ plan'
+                    sh 'terraform -chdir=/var/lib/jenkins/workspace/demo_mock/env/${deployment_env}/frontend/ plan'
                 }
             }
         }
@@ -84,16 +84,15 @@ pipeline {
             }
             steps {
                 sh 'pwd'
-                sh 'chmod +x $(which ansible-playbook)'
                 sh 'ls -ltra'
-                sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml'
-                sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
-                sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
+                sh 'cat /var/lib/jenkins/workspace/demo_mock/playbook.yml'
+                sh 'chmod +x /var/lib/jenkins/workspace/demo_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
+                sh 'cat /var/lib/jenkins/workspace/demo_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
                 script {
-                    def inventoryPath = "/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory"
-                    def playbookPath = "/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml"
+                    def inventoryPath = "/var/lib/jenkins/workspace/demo_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory"
+                    def playbookPath = "/var/lib/jenkins/workspace/demo_mock/playbook.yml"
                     ansiblePlaybook(
-                        credentialsId: 'my_key',
+                        credentialsId: 'aws_private_key',
                         playbook: playbookPath,
                         inventory: inventoryPath,
                         colorized: true
@@ -108,7 +107,7 @@ pipeline {
             steps {
                 echo "start to destroy with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                    sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/ destroy -auto-approve'
+                    sh 'terraform -chdir=/var/lib/jenkins/workspace/demo_mock/env/${deployment_env}/frontend/ destroy -auto-approve'
                 }
             }
         }
