@@ -8,9 +8,6 @@
 #   ]
 # }
 
-
 output "list_ec2_ip" {
-  value = { 
-    for instance in aws_instance.ec2_instances : instance.id => instance.public_ip
-  }
+  value = [for ec2 in aws_instance.ec2_instances: ec2.public_ip] 
 }
