@@ -69,12 +69,12 @@ pipeline {
                 sh 'ls -ltra'
                 sh 'chmod +x $(which ansible-playbook)'
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml'
-                sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
-                sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
+                sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/${deployment_env}_dynamic_inventory'
+                sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/${deployment_env}_dynamic_inventory'
                 ansiblePlaybook(
                     credentialsId: 'my_key',
                     playbook: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml',
-                    inventory: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory',
+                    inventory: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/${deployment_env}_dynamic_inventory',
                     become: 'yes'
                 ) 
             }
