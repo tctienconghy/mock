@@ -86,6 +86,7 @@ pipeline {
                 sh 'pwd'
                 sh 'ls -ltra'
                 sh 'ansible --version'
+                sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
                 echo "deploy ansible with env: ${params.deployment_env}"
                 ansiblePlaybook(
                     credentialsId: 'aws_private_key',
