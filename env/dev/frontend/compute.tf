@@ -8,17 +8,13 @@ locals {
 }
 
 resource "null_resource" "ansible_inventory" {
-  triggers = {
-    list_ec2_ip = join(",", local.list_ec2_ip)
-  }
-  for_each = local.list_ec2_ip
+  count = length(local.list_ec2_ip)
 
   provisioner "local-exec" {
     command = <<-EOF
       echo "[dev]" > dev_dynamic_inventory
-      {% for ip in local.list_ec2_ip %}
-      echo "${each.value} ansible_user=\"ubuntu\"" >> dev_dynamic_inventory
-      {% endfor %}
+      echo "${local.list_ec2_ip[count.index]} ansible_user=\"ubuntu\"" >> dev_dynamic_inventory
     EOF
   }
+  depends_on = [ local.list_ec2_ip ]
 }
