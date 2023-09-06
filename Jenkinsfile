@@ -87,6 +87,7 @@ pipeline {
                 sh 'ls -ltra'
                 sh 'ansible --version'
                 sh 'chmod +x playbook.yml'
+                sh 'cat playbook.yml'
                 echo "deploy ansible with env: ${params.deployment_env}"
                 ansiblePlaybook(
                     credentialsId: 'aws_private_key',
