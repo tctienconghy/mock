@@ -3,21 +3,22 @@ module "ec2_instances" {
     ec2_instances = var.ec2_instances
 }
 
+locals {
+  list_ec2_ip = module.ec2_instances.list_ec2_ip
+}
 
 resource "null_resource" "ansible_inventory" {
   triggers = {
-    mytrigger = timestamp()
+    list_ec2_ip = join(",", local.list_ec2_ip)
   }
+  for_each = local.list_ec2_ip
 
   provisioner "local-exec" {
-    command = <<-EOT
-      echo '{
-        "ec2": {
-          "hosts": {
-            ${join(",", [for instance in module.ec2_instances.list_ec2_ip : "${instance}"])},
-          }
-        }
-      }' > ansible_inventory.json
-    EOT
+    command = <<-EOF
+      echo "[dev]" > dev_dynamic_inventory
+      {% for ip in local.list_ec2_ip %}
+      echo "${each.value} ansible_user=\"ubuntu\"" >> dev_dynamic_inventory
+      {% endfor %}
+    EOF
   }
 }
