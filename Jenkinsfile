@@ -89,7 +89,7 @@ pipeline {
                 ansiblePlaybook(
                     credentialsId: 'aws_private_key',
                         playbook: 'playbook.yml',
-                        inventory: 'env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory',
+                        inventory: '/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory',
                         become: 'yes'
                 )
             }
