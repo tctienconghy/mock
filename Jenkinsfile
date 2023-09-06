@@ -75,7 +75,8 @@ pipeline {
                     credentialsId: 'my_key',
                     playbook: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml',
                     inventory: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory',
-                    become: 'yes'
+                    become: 'yes',
+                    moduleArguments: '/Users/tctienconghygmail.com/.ansible/plugins/modules'
                 ) 
             }
         }
