@@ -94,8 +94,8 @@ pipeline {
                     def playbookPath = "/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml"
                     ansiblePlaybook(
                         credentialsId: 'my_key',
-                        playbook: 'playbook.yml',
-                        inventory: 'inventory',
+                        playbook: playbookPath,
+                        inventory: inventoryPath,
                         colorized: true
                 )
                 }
