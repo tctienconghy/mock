@@ -83,9 +83,8 @@ pipeline {
                 expression { params.action == 'deploy'}
             }
             steps {
-                sh 'pwd'
                 sh 'ansible --version'
-                sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/playbook.yml'
+                sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/*'
                 sh 'ls -ltra'
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/playbook.yml'
                 sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
