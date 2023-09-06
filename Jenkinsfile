@@ -1,9 +1,5 @@
 def runTerraform(environment) {
-    def instanceIps = sh(
-        script: "terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${environment}/frontend/ apply --lock=false -auto-approve && terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${environment}/frontend/ output list_ec2_ip",
-        returnStdout: true
-    ).trim()
-    writeFile file: "${environment}_list_ec2_ip.txt", text: instanceIps
+    sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${environment}/frontend/ apply --lock=false -auto-approve'
 }
 
 def generateDynamicInventory(environment) {
