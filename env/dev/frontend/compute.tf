@@ -8,6 +8,10 @@ locals {
 }
 
 resource "null_resource" "ansible_inventory" {
+  triggers = {
+    myTrigger = timestamp()
+  }
+  
   count = length(local.list_ec2_ip)
 
   provisioner "local-exec" {
