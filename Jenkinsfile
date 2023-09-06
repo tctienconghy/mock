@@ -9,19 +9,6 @@ def generateDynamicInventory(environment) {
     sh "dynamic_inventory.sh ${environment}"
 }
 
-def deployWithAnsible(environment) {
-    sh 'pwd'
-    sh 'ls -ltra'
-    sh 'chmod +x playbook.yml'
-    sh 'chmod +x env/${environment}/frontend/${environment}_dynamic_inventory'
-    sh "ansible-playbook -i env/${environment}/frontend/${environment}_dynamic_inventory playbook.yml"
-}
-
-def selectWorkspace(environment){
-    sh 'chmod +x select_workspace.sh'
-    sh "select_workspace.sh ${environment}"
-}
-
 pipeline {
     agent any
     parameters {
@@ -58,7 +45,6 @@ pipeline {
             steps {
                 echo "validate terraform with env: ${params.deployment_env}"
                 withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-                    sh 'ls -ltra'
                     sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/ plan'
                 }
             }
@@ -81,6 +67,7 @@ pipeline {
             steps {
                 sh 'pwd'
                 sh 'ls -ltra'
+                sh 'chmod +x $(which ansible-playbook)'
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml'
                 sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
@@ -92,7 +79,7 @@ pipeline {
                         playbook: playbookPath,
                         inventory: inventoryPath,
                         colorized: true
-                )
+                    )   
                 }
             }
         }
