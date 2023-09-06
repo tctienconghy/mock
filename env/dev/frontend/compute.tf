@@ -12,7 +12,7 @@ resource "null_resource" "ansible_inventory" {
 
   provisioner "local-exec" {
     command = <<-EOF
-      echo "[dev]" > dev_dynamic_inventory
+      echo "[ec2_hosts]" > dev_dynamic_inventory
       echo "${local.list_ec2_ip[count.index]} ansible_user=\"ubuntu\"" >> dev_dynamic_inventory
     EOF
   }
