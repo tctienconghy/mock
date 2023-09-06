@@ -83,14 +83,13 @@ pipeline {
                 expression { params.action == 'deploy'}
             }
             steps {
-                sh 'cd env/${deployment_env}/frontend'
                 sh 'pwd'
                 sh 'ls -ltra'
                 echo "deploy ansible with env: ${params.deployment_env}"
                 ansiblePlaybook(
                     credentialsId: 'aws_private_key',
                         playbook: 'playbook.yml',
-                        inventory: '{deployment_env}_dynamic_inventory',
+                        inventory: 'env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory',
                         become: 'yes'
                 )
             }
