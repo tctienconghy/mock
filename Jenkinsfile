@@ -85,7 +85,6 @@ pipeline {
             steps {
                 sh 'pwd'
                 sh 'ls -ltra'
-                sh 'ansible --version'
                 echo "deploy ansible with env: ${params.deployment_env}"
                 ansiblePlaybook(
                     credentialsId: 'aws_private_key',
