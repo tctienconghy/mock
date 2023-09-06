@@ -89,14 +89,16 @@ pipeline {
                 sh 'chmod +x playbook.yml'
                 sh 'cat playbook.yml'
                 echo "deploy ansible with env: ${params.deployment_env}"
-                def inventoryPath = "/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory"
-                ansiblePlaybook(
-                    credentialsId: 'aws_private_key',
-                        playbook: 'playbook.yml',
-                        inventory: inventoryPath,
-                        colorized: true,
-                        become: 'yes'
+                script {
+                    def inventoryPath = "/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory"
+                    ansiblePlaybook(
+                        credentialsId: 'aws_private_key',
+                            playbook: 'playbook.yml',
+                            inventory: inventoryPath,
+                            colorized: true,
+                            become: 'yes'
                 )
+                }
             }
         }
         stage("destroy"){
