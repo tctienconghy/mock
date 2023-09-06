@@ -94,7 +94,7 @@ pipeline {
                     def inventoryPath = "/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory"
                     def playbookPath = "/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/playbook.yml"
                     ansiblePlaybook(
-                        credentialsId: 'aws_private_key',
+                        credentialsId: 'private_key',
                             playbook: playbookPath,
                             inventory: inventoryPath,
                             colorized: true,
