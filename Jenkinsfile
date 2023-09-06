@@ -84,7 +84,7 @@ pipeline {
             }
             steps {
                 sh 'pwd'
-                sh 'chmod 777 /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/*'
+                sh 'chmod +x ${which ansible}'
                 sh 'ls -ltra'
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml'
                 sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
