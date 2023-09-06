@@ -15,6 +15,7 @@ def generateDynamicInventory(environment) {
 
 def deployWithAnsible(environment) {
     sh 'pwd'
+    sh 'ls -ltra'
     sh 'chmod +x playbook.yml'
     sh 'chmod +x ${environment}_dynamic_inventory.json'
     sh "ansible-playbook -i ${environment}_dynamic_inventory playbook.yml"
@@ -77,17 +78,6 @@ pipeline {
                 }
             }
         }
-        // stage("generate dynamic inventory"){
-        //     when {
-        //         expression { params.action == 'deploy'}
-        //     }
-        //     steps {
-        //         echo "genearte terraform with env: ${params.deployment_env}"
-        //         withAWS(credentials: 'my_aws_access', region: 'us-east-1') {
-        //             generateDynamicInventory("${params.deployment_env}")
-        //         }
-        //     }
-        // }
         stage("deploy ansible"){
             when {
                 expression { params.action == 'deploy'}
