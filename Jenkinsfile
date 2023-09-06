@@ -78,7 +78,9 @@ pipeline {
                         credentialsId: 'my_key',
                         playbook: playbookPath,
                         inventory: inventoryPath,
-                        colorized: true
+                        colorized: true,
+                        sudo: true,
+                        sudoUser: admin
                     )   
                 }
             }
