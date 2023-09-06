@@ -1,5 +1,5 @@
 def runTerraform(environment) {
-    sh 'terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${environment}/frontend/ apply --lock=false -auto-approve'
+    sh "terraform -chdir=/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/env/${environment}/frontend/ apply --lock=false -auto-approve"
 }
 
 def generateDynamicInventory(environment) {
