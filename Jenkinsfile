@@ -84,12 +84,11 @@ pipeline {
             }
             steps {
                 sh 'ansible --version'
-                sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/*'
+                sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/playbook.yml'
                 sh 'ls -ltra'
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/playbook.yml'
                 sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory'
-                echo "deploy ansible with env: ${params.deployment_env}"
                 script {
                     def inventoryPath = "/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/env/${deployment_env}/frontend/${deployment_env}_dynamic_inventory"
                     def playbookPath = "/Users/tctienconghygmail.com/.jenkins/workspace/job-jenkins/playbook.yml"
@@ -97,8 +96,7 @@ pipeline {
                         credentialsId: 'private_key',
                             playbook: playbookPath,
                             inventory: inventoryPath,
-                            colorized: true,
-                            become: 'yes'
+                            colorized: true
                 )
                 }
             }
