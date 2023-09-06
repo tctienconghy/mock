@@ -79,8 +79,7 @@ pipeline {
                         playbook: playbookPath,
                         inventory: inventoryPath,
                         colorized: true,
-                        sudo: true,
-                        sudoUser: admin
+                        becomeUser: 'tctienconghygmail.com'
                     )   
                 }
             }
