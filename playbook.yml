@@ -12,5 +12,5 @@
         state: present
     - name: Copy template
       copy:
-        src: index.html
-        dest: /usr/share/nginx/html
+        src: index.nginx-debian.html
+        dest: /var/www/html
