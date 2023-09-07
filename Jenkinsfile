@@ -76,8 +76,8 @@ pipeline {
                     sh "ls $workspaceDir"  // List files in the workspace
                     ansiblePlaybook (
                         credentialsId: 'my_key',
-                        playbook: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml',
-                        inventory: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/${deployment_env}_dynamic_inventory',
+                        playbook: 'playbook.yml',
+                        inventory: '${deployment_env}_dynamic_inventory',
                         become: 'yes'
                     )
                 }
