@@ -71,15 +71,23 @@ pipeline {
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml'
                 sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/${deployment_env}_dynamic_inventory'
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/${deployment_env}_dynamic_inventory'
-                script {
-                    def workspaceDir = pwd()
-                    sh "ls $workspaceDir"  // List files in the workspace
-                    ansiblePlaybook (
-                        credentialsId: 'my_key',
-                        playbook: 'playbook.yml',
-                        inventory: '${deployment_env}_dynamic_inventory',
-                        become: 'yes'
-                    )
+                // script {
+                //     def workspaceDir = pwd()
+                //     sh "ls $workspaceDir"  // List files in the workspace
+                //     ansiblePlaybook (
+                //         credentialsId: 'my_key',
+                //         playbook: 'playbook.yml',
+                //         inventory: '${deployment_env}_dynamic_inventory',
+                //         become: 'yes'
+                //     )
+                // }
+                withCredentials([sshUserPrivateKey(credentialsId: 'my_key', keyFileVariable: 'SSH_KEY_FILE', passphraseVariable: '', usernameVariable: 'SSH_USERNAME')]) {
+                    sh """
+                    ansible-playbook -i ${deployment_env}_dynamic_inventory \\
+                        --private-key \${SSH_KEY_FILE} \\
+                        --user \${SSH_USERNAME} \\
+                        playbook.yml
+                    """
                 }
             }
         }
