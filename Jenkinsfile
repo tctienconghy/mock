@@ -71,12 +71,16 @@ pipeline {
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml'
                 sh 'chmod +x /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/${deployment_env}_dynamic_inventory'
                 sh 'cat /Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/${deployment_env}_dynamic_inventory'
-                ansiblePlaybook(
-                    credentialsId: 'my_key',
-                    playbook: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml',
-                    inventory: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/${deployment_env}_dynamic_inventory',
-                    become: 'yes'
-                ) 
+                script {
+                    def workspaceDir = pwd()
+                    sh "ls $workspaceDir"  // List files in the workspace
+                    ansiblePlaybook (
+                        credentialsId: 'my_key',
+                        playbook: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/playbook.yml',
+                        inventory: '/Users/tctienconghygmail.com/.jenkins/workspace/jenkins_mock/${deployment_env}_dynamic_inventory',
+                        become: 'yes'
+                    )
+                }
             }
         }
         stage("destroy"){
