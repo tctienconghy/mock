@@ -3,16 +3,9 @@ ec2_instances = {
       ami                           = "ami-053b0d53c279acc90"  
       instance_type                 = "t2.micro"      
       subnet_id                     = 0
-      tags                          = {Name = "instance1"}
+      tags                          = {Name = "dev_instance1"}
       associate_public_ip_address   = true
-    },
-    instance2 = {
-      ami                           = "ami-053b0d53c279acc90"  
-      instance_type                 = "t2.micro"      
-      subnet_id                     = 1
-      tags                          = {Name = "instance2"}
-      associate_public_ip_address   = true
-    }   
+    }
 }
 device_name = "/dev/sdf"
 
