@@ -28,7 +28,7 @@ resource "aws_instance" "ec2_instances" {
     vpc_security_group_ids      = [module.vpcs.security_group_id]
     tags                        = each.value.tags
     associate_public_ip_address = each.value.associate_public_ip_address
-    key_name                    = "tien_trinh.pem"
+    key_name                    = "tien_trinh"
 }
 
 resource "aws_volume_attachment" "ebs_attachment" {
