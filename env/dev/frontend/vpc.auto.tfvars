@@ -7,8 +7,4 @@ subnet_cidr_mapping_az = {
     cidr    = "10.0.4.0/24"
     az      = "us-east-1a" 
   }
-  mapping2 = {
-    cidr    = "10.0.4.0/24"
-    az      = "us-east-1b"
-  }
 }
