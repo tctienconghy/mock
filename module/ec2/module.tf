@@ -8,18 +8,14 @@ module "vpcs" {
             cidr    = "10.0.3.0/24"
             az      = "us-east-1a" 
         }
-        mapping2 = {
-            cidr    = "10.0.4.0/24"
-            az      = "us-east-1b"
-        }
     }
 }
 
 
 module "ebs" {
   source = "../../module/ebs"
-  ebs_size = 8 
-  avaiability_zones = ["us-east-1a", "us-east-1b"]
+  ebs_size = 2
+  avaiability_zones = ["us-east-1a"]
 
 }
 
@@ -32,9 +28,8 @@ resource "aws_instance" "ec2_instances" {
     vpc_security_group_ids      = [module.vpcs.security_group_id]
     tags                        = each.value.tags
     associate_public_ip_address = each.value.associate_public_ip_address
-    key_name                    = "tien_trinh"
+    key_name                    = "tien_trinh.pem"
 }
-
 
 resource "aws_volume_attachment" "ebs_attachment" {
     for_each = {
